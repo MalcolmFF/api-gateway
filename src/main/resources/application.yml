@@ -1,0 +1,82 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为80
+  port: 9069
+  servlet:
+    # 应用的访问路径
+    context-path: /manage-open/service
+  tomcat:
+    # tomcat的URI编码
+    uri-encoding: UTF-8
+    # tomcat最大线程数，默认为200
+    max-threads: 800
+    # Tomcat启动初始化的线程数，默认值25
+    min-spare-threads: 30
+ 
+# 日志配置
+logging:
+  level:
+    com.inspur: debug
+    org.springframework: warn
+
+# MyBatis
+mybatis:
+    mapper-locations: classpath:mapper/*Mapper.xml
+
+manage:
+  open:
+    connect:
+      timeout: 300000
+    socket:
+      timeout: 300000
+    connection:
+      request:
+        timeout: 300000
+
+
+# 数据源配置
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+      url: jdbc:mysql://172.19.221.77:3306/openyunying?useUnicode=true&characterEncoding=utf-8&useOldAliasMetadataBehavior=true&useSSL=false&serverTimezone=GMT%2B8
+      username: open
+      password: 'open@0408'
+
+      initialSize: 5
+      minIdle: 10
+      maxActive: 20
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username:
+        login-password:
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true

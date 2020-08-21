@@ -1,0 +1,760 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inspur.apigateway.dao.ServiceMonitorMapper">
+
+    <resultMap id="BaseResultMap" type="com.inspur.apigateway.data.ApiServiceMonitor">
+        <result column="id" property="id"/>
+        <result column="api_service_id" property="apiServiceId"/>
+        <result column="mid" property="mid"/>
+        <result column="monitor_id" property="monitorId"/>
+        <result column="api_service_name" property="apiServiceName"/>
+        <result column="open_service_request_url" property="openServiceRequestURL"/>
+        <result column="open_service_input" property="openServiceInput"/>
+        <result column="open_service_input_header" property="openServiceInputHeader"/>
+        <result column="open_service_output" property="openServiceOutput"/>
+        <result column="open_service_method" property="openServiceMethod"/>
+        <result column="service_input" property="serviceInput"/>
+        <result column="service_input_header" property="serviceInputHeader"/>
+        <result column="service_output" property="serviceOutput"/>
+        <result column="service_method" property="serviceMethod"/>
+        <result column="result" property="result"/>
+        <result column="caller_ip" property="callerIp"/>
+        <result column="caller_app_id" property="callerAppId"/>
+        <result column="caller_user_id" property="callerUserId"/>
+        <result column="request_time" property="requestTime"/>
+        <result column="response_time" property="responseTime"/>
+        <result column="service_total_time" property="serviceTotalTime"/>
+        <result column="open_service_total_time" property="openServiceTotalTime"/>
+        <result column="notes" property="notes"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+    <resultMap type="java.util.Map" id="countMap"/>
+
+    <sql id="Base_Column_List">
+                `id`,
+                `api_service_id`,
+                `api_service_name`,
+                `open_service_request_url`,
+                `open_service_input`,
+                `open_service_input_header`,
+                `open_service_output`,
+                `open_service_method`,
+                `service_input`,
+                `service_input_header`,
+                `service_output`,
+                `service_method`,
+                `result`,
+                `caller_ip`,
+                `caller_app_id`,
+                `caller_user_id`,
+                `request_time`,
+                `response_time`,
+                `service_total_time`,
+                `open_service_total_time`,
+                `notes`,
+                `create_time`
+    </sql>
+
+    <sql id="Monitor_List">
+                `id`,
+                `api_service_id`,
+                `api_service_name`,
+                `open_service_request_url`,
+                `result`,
+                `caller_ip`,
+                `caller_app_id`,
+                `caller_user_id`,
+                `request_time`,
+                `response_time`,
+                `service_total_time`,
+                `open_service_total_time`,
+                `notes`,
+                `create_time`
+    </sql>
+
+
+    <insert id="insert" useGeneratedKeys="true" keyColumn="id"
+            parameterType="com.inspur.apigateway.data.ApiServiceMonitor">
+        INSERT INTO api_service_monitor
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != id and '' != id">
+                `id`,
+            </if>
+            <if test="null != apiServiceId and '' != apiServiceId">
+                `api_service_id`,
+            </if>
+            <if test="null != apiServiceName and '' != apiServiceName">
+                `api_service_name`,
+            </if>
+            <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+                `open_service_request_url`,
+            </if>
+            <if test="null != result and '' != result">
+                `result`,
+            </if>
+            <if test="null != callerIp and '' != callerIp">
+                `caller_ip`,
+            </if>
+            <if test="null != callerAppId and '' != callerAppId">
+                `caller_app_id`,
+            </if>
+            <if test="null != callerUserId and '' != callerUserId">
+                `caller_user_id`,
+            </if>
+            <if test="null != requestTime and '' != requestTime">
+                `request_time`,
+            </if>
+            <if test="null != responseTime and '' != responseTime">
+                `response_time`,
+            </if>
+            <if test="null != serviceTotalTime and '' != serviceTotalTime">
+                `service_total_time`,
+            </if>
+            <if test="null != openServiceTotalTime and '' != openServiceTotalTime">
+                `open_service_total_time`,
+            </if>
+            <if test="null != notes and '' != notes">
+                `notes`,
+            </if>
+            <if test="null != createTime and '' != createTime">
+                `create_time`
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != id and '' != id">
+                #{id},
+            </if>
+            <if test="null != apiServiceId and '' != apiServiceId">
+                #{apiServiceId},
+            </if>
+            <if test="null != apiServiceName and '' != apiServiceName">
+                #{apiServiceName},
+            </if>
+            <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+                #{openServiceRequestURL},
+            </if>
+            <if test="null != result and '' != result">
+                #{result},
+            </if>
+            <if test="null != callerIp and '' != callerIp">
+                #{callerIp},
+            </if>
+            <if test="null != callerAppId and '' != callerAppId">
+                #{callerAppId},
+            </if>
+            <if test="null != callerUserId and '' != callerUserId">
+                #{callerUserId},
+            </if>
+            <if test="null != requestTime and '' != requestTime">
+                #{requestTime},
+            </if>
+            <if test="null != responseTime and '' != responseTime">
+                #{responseTime},
+            </if>
+            <if test="null != serviceTotalTime and '' != serviceTotalTime">
+                #{serviceTotalTime},
+            </if>
+            <if test="null != openServiceTotalTime and '' != openServiceTotalTime">
+                #{openServiceTotalTime},
+            </if>
+            <if test="null != notes and '' != notes">
+                #{notes},
+            </if>
+            <if test="null != createTime and '' != createTime">
+                #{createTime}
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertInfo" useGeneratedKeys="true" keyColumn="id"
+            parameterType="com.inspur.apigateway.data.ApiServiceMonitor">
+        INSERT INTO api_service_monitor_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="null != monitorId and '' != monitorId">
+                `monitor_id`,
+            </if>
+            <if test="null != openServiceInput and '' != openServiceInput">
+                `open_service_input`,
+            </if>
+            <if test="null != openServiceInputHeader and '' != openServiceInputHeader">
+                `open_service_input_header`,
+            </if>
+            <if test="null != openServiceOutput and '' != openServiceOutput">
+                `open_service_output`,
+            </if>
+            <if test="null != openServiceMethod and '' != openServiceMethod">
+                `open_service_method`,
+            </if>
+            <if test="null != serviceInput and '' != serviceInput">
+                `service_input`,
+            </if>
+            <if test="null != serviceInputHeader and '' != serviceInputHeader">
+                `service_input_header`,
+            </if>
+            <if test="null != serviceOutput and '' != serviceOutput">
+                `service_output`,
+            </if>
+            <if test="null != serviceMethod and '' != serviceMethod">
+                `service_method`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="null != monitorId and '' != monitorId">
+                #{monitorId},
+            </if>
+            <if test="null != openServiceInput and '' != openServiceInput">
+                #{openServiceInput},
+            </if>
+            <if test="null != openServiceInputHeader and '' != openServiceInputHeader">
+                #{openServiceInputHeader},
+            </if>
+            <if test="null != openServiceOutput and '' != openServiceOutput">
+                #{openServiceOutput},
+            </if>
+            <if test="null != openServiceMethod and '' != openServiceMethod">
+                #{openServiceMethod},
+            </if>
+            <if test="null != serviceInput and '' != serviceInput">
+                #{serviceInput},
+            </if>
+            <if test="null != serviceInputHeader and '' != serviceInputHeader">
+                #{serviceInputHeader},
+            </if>
+            <if test="null != serviceOutput and '' != serviceOutput">
+                #{serviceOutput},
+            </if>
+            <if test="null != serviceMethod and '' != serviceMethod">
+                #{serviceMethod},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteById" parameterType="String">
+        DELETE FROM api_service_monitor
+        WHERE `id` = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.inspur.apigateway.data.ApiServiceMonitor">
+        UPDATE api_service_monitor
+        <set>
+            <if test="null != id and '' != id">id = #{id},</if>
+            <if test="null != apiServiceId and '' != apiServiceId">api_service_id = #{apiServiceId},</if>
+            <if test="null != apiServiceName and '' != apiServiceName">api_service_name = #{apiServiceName},</if>
+            <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+                open_service_request_url = #{openServiceRequestURL},
+            </if>
+            <if test="null != openServiceInput and '' != openServiceInput">open_service_input = #{openServiceInput},
+            </if>
+            <if test="null != openServiceInputHeader and '' != openServiceInputHeader">open_service_input_header =
+                #{openServiceInputHeader},
+            </if>
+            <if test="null != openServiceOutput and '' != openServiceOutput">open_service_output =
+                #{openServiceOutput},
+            </if>
+            <if test="null != openServiceMethod and '' != openServiceMethod">open_service_method =
+                #{openServiceMethod},
+            </if>
+            <if test="null != serviceInput and '' != serviceInput">service_input = #{serviceInput},</if>
+            <if test="null != serviceInputHeader and '' != serviceInputHeader">service_input_header =
+                #{serviceInputHeader},
+            </if>
+            <if test="null != serviceOutput and '' != serviceOutput">service_output = #{serviceOutput},</if>
+            <if test="null != serviceMethod and '' != serviceMethod">service_method = #{serviceMethod},</if>
+            <if test="null != result and '' != result">result = #{result},</if>
+            <if test="null != callerIp and '' != callerIp">caller_ip = #{callerIp},</if>
+            <if test="null != callerAppId and '' != callerAppId">caller_app_id = #{callerAppId},</if>
+            <if test="null != callerUserId and '' != callerUserId">caller_user_id = #{callerUserId},</if>
+            <if test="null != requestTime and '' != requestTime">request_time = #{requestTime},</if>
+            <if test="null != responseTime and '' != responseTime">response_time = #{responseTime},</if>
+            <if test="null != serviceTotalTime and '' != serviceTotalTime">service_total_time = #{serviceTotalTime},
+            </if>
+            <if test="null != notes and '' != notes">notes = #{notes},</if>
+            <if test="null != createTime and '' != createTime">create_time = #{createTime}</if>
+        </set>
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="load" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM api_service_monitor asm
+        left join api_service_monitor_info asmi on asmi.monitor_id = asm.id
+        <if test="null != id and '' != id">WHERE `id` = #{id}</if>
+    </select>
+
+    <select id="query" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM api_service_monitor asm
+        left join api_service_monitor_info asmi on asmi.monitor_id = asm.id
+        WHERE 1=1
+        <if test="null != id and '' != id">and id = #{id}</if>
+        <if test="null != apiServiceId and '' != apiServiceId">and api_service_id = #{apiServiceId}</if>
+        <if test="null != apiServiceName and '' != apiServiceName">
+            <bind name="apiServiceNames" value="'%'+apiServiceName+'%'" />
+            and api_service_name like #{apiServiceNames}
+        </if>
+        <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+            and open_service_request_url = #{openServiceRequestURL}
+        </if>
+        <if test="null != openServiceRequestURLLike and '' != openServiceRequestURLLike">
+            <bind name="openServiceRequestURLs" value="'%'+openServiceRequestURL+'%'" />
+            and open_service_request_url like #{openServiceRequestURLs}
+        </if>
+        <if test="null != openServiceInput and '' != openServiceInput">and open_service_input = #{openServiceInput}</if>
+        <if test="null != openServiceInputHeader and '' != openServiceInputHeader">and open_service_input_header =
+            #{openServiceInputHeader}
+        </if>
+        <if test="null != openServiceOutput and '' != openServiceOutput">and open_service_output =
+            #{openServiceOutput}
+        </if>
+        <if test="null != openServiceMethod and '' != openServiceMethod">and open_service_method =
+            #{openServiceMethod}
+        </if>
+        <if test="null != serviceInput and '' != serviceInput">and service_input = #{serviceInput}</if>
+        <if test="null != serviceInputHeader and '' != serviceInputHeader">and open_service_input_header =
+            #{serviceInputHeader}
+        </if>
+        <if test="null != serviceOutput and '' != serviceOutput">and service_output = #{serviceOutput}</if>
+        <if test="null != serviceMethod and '' != serviceMethod">and service_method = #{serviceMethod}</if>
+        <if test="null != result and '' != result">and result = #{result}</if>
+        <if test="null != callerIp and '' != callerIp">and caller_ip = #{callerIp}</if>
+        <if test="null != callerAppId and '' != callerAppId">and caller_app_id = #{callerAppId}</if>
+        <if test="null != callerUserId and '' != callerUserId">and caller_user_id = #{callerUserId}</if>
+        <if test="null != requestTime and '' != requestTime">and request_time = #{requestTime}</if>
+        <if test="null != responseTime and '' != responseTime">and response_time = #{responseTime}</if>
+        <if test="null != serviceTotalTime and '' != serviceTotalTime">and service_total_time = #{serviceTotalTime}</if>
+        <if test="null != notes and '' != notes">and notes = #{notes}</if>
+        <if test="null != createTime and '' != createTime">and create_time = #{createTime}</if>
+        <if test="null != startTime and '' != startTime">and request_time > #{startTime}</if>
+        <if test="null != endTime and '' != endTime">and request_time <![CDATA[ <= ]]> #{endTime}</if>
+        ORDER BY request_time DESC
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Monitor_List"/>
+        FROM api_service_monitor WHERE 1=1
+        <if test="null != id and '' != id">and id = #{id}</if>
+        <if test="null != apiServiceId and '' != apiServiceId">and api_service_id = #{apiServiceId}</if>
+        <if test="null != apiServiceName and '' != apiServiceName">
+            <bind name="apiServiceNames" value="'%'+apiServiceName+'%'" />
+            and api_service_name like #{apiServiceNames}
+        </if>
+        <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+            and open_service_request_url = #{openServiceRequestURL}
+        </if>
+        <if test="null != openServiceRequestURLLike and '' != openServiceRequestURLLike">
+            <bind name="openServiceRequestURLs" value="'%'+openServiceRequestURL+'%'" />
+            and open_service_request_url like #{openServiceRequestURLs}
+        </if>
+        <if test="null != openServiceInput and '' != openServiceInput">and open_service_input = #{openServiceInput}</if>
+        <if test="null != openServiceInputHeader and '' != openServiceInputHeader">and open_service_input_header =
+            #{openServiceInputHeader}
+        </if>
+        <if test="null != openServiceOutput and '' != openServiceOutput">and open_service_output =
+            #{openServiceOutput}
+        </if>
+        <if test="null != openServiceMethod and '' != openServiceMethod">and open_service_method =
+            #{openServiceMethod}
+        </if>
+        <if test="null != serviceInput and '' != serviceInput">and service_input = #{serviceInput}</if>
+        <if test="null != serviceInputHeader and '' != serviceInputHeader">and open_service_input_header =
+            #{serviceInputHeader}
+        </if>
+        <if test="null != serviceOutput and '' != serviceOutput">and service_output = #{serviceOutput}</if>
+        <if test="null != serviceMethod and '' != serviceMethod">and service_method = #{serviceMethod}</if>
+        <if test="null != result and '' != result">and result = #{result}</if>
+        <if test="null != callerIp and '' != callerIp">and caller_ip = #{callerIp}</if>
+        <if test="null != callerAppId and '' != callerAppId">and caller_app_id = #{callerAppId}</if>
+        <if test="null != callerUserId and '' != callerUserId">and caller_user_id = #{callerUserId}</if>
+        <if test="null != requestTime and '' != requestTime">and request_time = #{requestTime}</if>
+        <if test="null != responseTime and '' != responseTime">and response_time = #{responseTime}</if>
+        <if test="null != serviceTotalTime and '' != serviceTotalTime">and service_total_time = #{serviceTotalTime}</if>
+        <if test="null != notes and '' != notes">and notes = #{notes}</if>
+        <if test="null != createTime and '' != createTime">and create_time = #{createTime}</if>
+        <if test="null != startTime and '' != startTime">and request_time > #{startTime}</if>
+        <if test="null != endTime and '' != endTime">and request_time <![CDATA[ <= ]]> #{endTime}</if>
+        ORDER BY request_time DESC
+        LIMIT ${startNum},${limitNum}
+    </select>
+
+    <select id="queryListCount" resultType="java.lang.Integer" parameterType="map">
+        SELECT
+        count(id)
+        FROM api_service_monitor WHERE 1=1
+        <if test="null != id and '' != id">and id = #{id}</if>
+        <if test="null != apiServiceId and '' != apiServiceId">and api_service_id = #{apiServiceId}</if>
+        <if test="null != apiServiceName and '' != apiServiceName">
+            <bind name="apiServiceNames" value="'%'+apiServiceName+'%'" />
+            and api_service_name like #{apiServiceNames}
+        </if>
+        <if test="null != openServiceRequestURL and '' != openServiceRequestURL">
+            and open_service_request_url = #{openServiceRequestURL}
+        </if>
+        <if test="null != openServiceRequestURLLike and '' != openServiceRequestURLLike">
+            <bind name="openServiceRequestURLs" value="'%'+openServiceRequestURL+'%'" />
+            and open_service_request_url like #{openServiceRequestURLs}
+        </if>
+        <if test="null != openServiceInput and '' != openServiceInput">and open_service_input = #{openServiceInput}</if>
+        <if test="null != openServiceInputHeader and '' != openServiceInputHeader">and open_service_input_header =
+            #{openServiceInputHeader}
+        </if>
+        <if test="null != openServiceOutput and '' != openServiceOutput">and open_service_output =
+            #{openServiceOutput}
+        </if>
+        <if test="null != openServiceMethod and '' != openServiceMethod">and open_service_method =
+            #{openServiceMethod}
+        </if>
+        <if test="null != serviceInput and '' != serviceInput">and service_input = #{serviceInput}</if>
+        <if test="null != serviceInputHeader and '' != serviceInputHeader">and open_service_input_header =
+            #{serviceInputHeader}
+        </if>
+        <if test="null != serviceOutput and '' != serviceOutput">and service_output = #{serviceOutput}</if>
+        <if test="null != serviceMethod and '' != serviceMethod">and service_method = #{serviceMethod}</if>
+        <if test="null != result and '' != result">and result = #{result}</if>
+        <if test="null != callerIp and '' != callerIp">and caller_ip = #{callerIp}</if>
+        <if test="null != callerAppId and '' != callerAppId">and caller_app_id = #{callerAppId}</if>
+        <if test="null != callerUserId and '' != callerUserId">and caller_user_id = #{callerUserId}</if>
+        <if test="null != requestTime and '' != requestTime">and request_time = #{requestTime}</if>
+        <if test="null != responseTime and '' != responseTime">and response_time = #{responseTime}</if>
+        <if test="null != serviceTotalTime and '' != serviceTotalTime">and service_total_time = #{serviceTotalTime}</if>
+        <if test="null != notes and '' != notes">and notes = #{notes}</if>
+        <if test="null != createTime and '' != createTime">and create_time = #{createTime}</if>
+        <if test="null != startTime and '' != startTime">and request_time > #{startTime}</if>
+        <if test="null != endTime and '' != endTime">and request_time <![CDATA[ <= ]]> #{endTime}</if>
+    </select>
+
+    <select id="getAllCount" resultMap="countMap">
+        SELECT
+        COUNT(id) AS totalCount
+        ,SUM(result='200') AS totalSuccessCount
+        FROM api_service_monitor
+	</select>
+
+    <select id="getCount" parameterType="map" resultMap="countMap">
+        SELECT
+        COUNT(id) AS totalCount
+        ,SUM(
+        <choose>
+            <when test="null != result and '' != result">
+                result=#{result}
+            </when>
+            <otherwise>
+                result = '200'
+            </otherwise>
+        </choose>
+        ) AS totalSuccessCount
+        FROM api_service_monitor
+        where 1=1
+        <if test="null != days and '' != days">
+            and request_time>=#{days}
+        </if>
+        <if test="null != userId and '' != userId">
+            and caller_user_id = #{userId}
+        </if>
+    </select>
+
+    <select id="getDayCount" parameterType="map" resultMap="countMap">
+        SELECT
+        SUBSTRING(request_time,1,10) as day
+        ,COUNT(id) AS totalCount
+        ,SUM(result=#{result}) AS totalSuccessCount
+        FROM api_service_monitor
+        WHERE request_time>=#{days}
+        <if test="null != userId and '' != userId">
+            and caller_user_id = #{userId}
+        </if>
+        GROUP BY day
+        ORDER BY day asc
+	</select>
+
+    <select id="getAvgTime" parameterType="map" resultMap="countMap">
+        SELECT
+        SUBSTRING(request_time,1,10) as day
+        ,AVG(service_total_time) AS time
+        ,AVG(open_service_total_time) AS openTime
+        FROM api_service_monitor
+        WHERE request_time>=#{days} and result=#{result}
+        <if test="null != userId and '' != userId">
+            and caller_user_id = #{userId}
+        </if>
+        GROUP BY day
+        ORDER BY day asc
+	</select>
+
+    <select id="getMaxTime" parameterType="map" resultMap="countMap">
+        SELECT
+        SUBSTRING(request_time,1,10) as day
+        ,MAX(service_total_time) AS time
+        FROM api_service_monitor
+        WHERE request_time>=#{days} and result=#{result}
+        GROUP BY day
+        ORDER BY day asc
+	</select>
+
+    <select id="getCallVolume" parameterType="map" resultMap="countMap">
+        SELECT
+        SUBSTRING(request_time,1,
+        <choose>
+            <when test="null != type and 'month' == type">
+                7
+            </when>
+            <when test="null != type and 'hour' == type">
+                13
+            </when>
+            <otherwise>
+                10
+            </otherwise>
+        </choose>
+        ) as day
+        ,COUNT(id) AS totalCount
+        ,SUM(result=#{result}) AS totalSuccessCount
+        FROM api_service_monitor
+        WHERE request_time>=#{days}
+        <if test="null != userId and '' != userId">and caller_user_id=#{userId}</if>
+        <if test="null != apiId and '' != apiId">and api_service_id=#{apiId}</if>
+        GROUP BY day
+        ORDER BY day asc
+    </select>
+
+    <select id="getTopApiCount" parameterType="map" resultMap="countMap">
+
+        SELECT
+        api_service_id
+        ,api_service_name
+        ,COUNT(api_service_id) AS totalCount
+        FROM api_service_monitor
+        WHERE request_time >=#{days}
+        <choose>
+            <when test="null != result and '' != result">
+                AND result=#{result}
+            </when>
+            <otherwise>
+                AND result = '200'
+            </otherwise>
+        </choose>
+        GROUP BY api_service_id,api_service_name
+        ORDER BY totalCount DESC
+        <if test="null != pageSize and '' != pageSize">LIMIT 0,${pageSize}</if>
+
+    </select>
+
+    <select id="getTopUserInfo" parameterType="map" resultMap="countMap">
+
+        SELECT
+        caller_user_id AS CALLER_USER_ID
+        ,IFNULL(pu.USER_NAME , caller_user_id) AS name
+        ,COUNT(caller_user_id) AS value
+        FROM api_service_monitor asm
+        LEFT JOIN pub_users pu ON asm.caller_user_id=pu.USER_ID
+        WHERE request_time >=#{days}
+        <choose>
+            <when test="null != result and '' != result">
+                AND result=#{result}
+            </when>
+            <otherwise>
+                AND result = '200'
+            </otherwise>
+        </choose>
+        GROUP BY CALLER_USER_ID
+        ORDER BY value DESC
+        <if test="null != pageSize and '' != pageSize">LIMIT 0,${pageSize}</if>
+    </select>
+
+    <select id="getTopIpCount" parameterType="map" resultMap="countMap">
+
+        SELECT
+        caller_ip
+        ,COUNT(caller_ip) AS totalCount
+        FROM api_service_monitor
+        WHERE request_time >=#{days}
+        <choose>
+            <when test="null != result and '' != result">
+                AND result=#{result}
+            </when>
+            <otherwise>
+                AND result = '200'
+            </otherwise>
+        </choose>
+        GROUP BY caller_ip
+        ORDER BY totalCount DESC
+        <if test="null != pageSize and '' != pageSize">LIMIT 0,${pageSize}</if>
+    </select>
+
+    <select id="queryNotSuccessNearby" parameterType="map" resultType="map">
+        SELECT
+        caller_ip,COUNT(id) as count
+        FROM
+        api_service_monitor
+        WHERE
+        1=1
+        <if test="null != result and '' != result">
+            and result != #{result}
+        </if>
+        and create_time between #{startTime} and #{endTime}
+        group by caller_ip
+    </select>
+
+    <select id="getCallAvgTime" parameterType="map" resultType="map">
+        SELECT
+        api_service_id
+        ,AVG(service_total_time) AS avgTime
+        FROM api_service_monitor
+        WHERE 1=1
+        <choose>
+            <when test="null != result and '' != result">
+                AND result = #{result}
+            </when>
+            <otherwise>
+                AND result = '200'
+            </otherwise>
+        </choose>
+        <if test="null != userId and '' != userId">and caller_user_id=#{userId}</if>
+        <if test="null != days and '' != days">and request_time>=#{days}</if>
+        GROUP BY api_service_id
+    </select>
+
+    <select id="getActivityList" parameterType="map" resultType="map">
+        SELECT
+        asd_tmp.id AS id,
+        asd_tmp.name AS name,
+        asm_tmp.totalCount
+        FROM (SELECT DISTINCT asd.id AS id
+        ,asd.name AS name
+        ,audit_status
+        FROM api_service_def asd
+        LEFT JOIN api_service_apply asa ON asa.API_SERVICE_ID = asd.id
+        LEFT JOIN app_info ai ON ai.APP_ID = asa.APP_ID
+        WHERE 1=1
+        <choose>
+            <when test="null != auditStatus and '' != auditStatus">
+                and asd.audit_status =#{auditStatus}
+            </when>
+            <otherwise>
+                and asd.audit_status ='2'
+            </otherwise>
+        </choose>
+        <if test="null != userId and '' != userId">AND ai.USER_ID = #{userId}</if>
+        ) asd_tmp
+        LEFT JOIN
+        (SELECT
+        api_service_id
+        ,COUNT(id) AS totalCount
+        FROM api_service_monitor
+        WHERE api_service_id IS NOT NULL
+        <if test="null != userId and '' != userId">and caller_user_id=#{userId}</if>
+        GROUP BY api_service_id) asm_tmp
+        ON asd_tmp.id = asm_tmp.api_service_id
+        WHERE 1=1
+        <choose>
+            <when test="null != auditStatus and '' != auditStatus">
+                and asd_tmp.audit_status =#{auditStatus}
+            </when>
+            <otherwise>
+                and asd_tmp.audit_status ='2'
+            </otherwise>
+        </choose>
+
+    </select>
+
+    <select id="getActivityListInfo" parameterType="map" resultType="map">
+        SELECT
+        asm.api_service_id
+        ,asm.result
+        ,asm.service_total_time as serviceTotalTime
+        ,asm.request_time as requestTime
+        FROM (SELECT
+        api_service_id
+        ,MAX(request_time) AS requestTime
+        FROM api_service_monitor
+        WHERE api_service_id IS NOT NULL
+        <if test="null != userId and '' != userId">and caller_user_id=#{userId}</if>
+        GROUP BY api_service_id) asm_t
+        LEFT JOIN (SELECT api_service_id,
+        result,
+        service_total_time,
+        request_time
+        FROM
+        api_service_monitor
+        <if test="null != userId and '' != userId">WHERE caller_user_id=#{userId}</if>
+        ) asm
+        ON asm_t.api_service_id = asm.api_service_id
+        AND asm_t.requestTime = asm.request_time
+        ORDER BY request_time,api_service_id,service_total_time desc
+    </select>
+
+    <select id="getActivityStatistics" parameterType="map" resultType="map">
+        SELECT
+        COUNT(asd_tmp.id) AS total
+        ,COUNT(asm_tmp.totalCount) AS activityTotal
+        FROM
+        (SELECT DISTINCT asd.id
+        ,AUDIT_STATUS
+        FROM api_service_def asd
+        LEFT JOIN api_service_apply asa ON asa.API_SERVICE_ID = asd.id
+        LEFT JOIN app_info ai ON ai.APP_ID = asa.APP_ID
+        WHERE asd.AUDIT_STATUS =#{auditStatus}
+        <if test="null != userId and '' != userId">AND ai.USER_ID = #{userId}</if>
+        ) asd_tmp
+        LEFT JOIN
+        (SELECT
+        api_service_id
+        ,COUNT(api_service_id) AS totalCount
+        FROM api_service_monitor
+        WHERE api_service_id IS NOT NULL
+        <if test="null != days and '' != days">AND request_time >= #{days}</if>
+        GROUP BY api_service_id
+        ) asm_tmp
+        ON asd_tmp.id = asm_tmp.api_service_id
+        WHERE asd_tmp.audit_status = #{auditStatus}
+    </select>
+
+    <select id="getProportionOfCalls" parameterType="map" resultType="map">
+        SELECT
+        api_service_name as name
+        ,COUNT(id) AS value
+        FROM api_service_monitor
+        where 1=1
+        <if test="null != days and '' != days">
+            and request_time>=#{days}
+        </if>
+        <if test="null != userId and '' != userId">and caller_user_id = #{userId}</if>
+        <choose>
+            <when test="null != result and '' != result">
+                and result=#{result}
+            </when>
+            <otherwise>
+                and result = '200'
+            </otherwise>
+        </choose>
+        GROUP BY name
+        ORDER BY value DESC
+        <if test="null != pageSize and '' != pageSize">LIMIT 0,${pageSize}</if>
+    </select>
+
+    <select id="getUserIdCallVolumeByApi" parameterType="map" resultType="map">
+        SELECT
+        a.api_service_name,
+        a.caller_user_id,
+        c.user_name,
+        COUNT(a.id) as count
+        FROM api_service_monitor a
+        LEFT JOIN pub_users c ON a.caller_user_id = c.USER_ID
+        WHERE
+        a.api_service_id = #{apiId}
+        <if test="null != days and '' != days">and request_time>=#{days}</if>
+        GROUP BY a.caller_user_id
+        ORDER BY COUNT(a.id) asc;
+    </select>
+
+    <!--  根据 api_service_id 统计调用次数 -->
+    <select id="queryCountGroupByApi" parameterType="map"  resultType="int">
+        SELECT
+        COUNT(id)
+        FROM api_service_monitor
+        WHERE api_service_id = #{apiServiceId}
+    </select>
+</mapper>

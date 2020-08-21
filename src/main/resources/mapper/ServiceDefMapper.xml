@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.inspur.apigateway.dao.ServiceDefMapper">
+	<resultMap type="com.inspur.apigateway.data.ServiceDef" id="serviceDef">
+		<id property="id" column="ID"/>
+		<id property="name" column="NAME"/>
+		<id property="description" column="DESCRIPTION"/>
+		<id property="auditStatus" column="AUDIT_STATUS"/>
+		<id property="auditUser" column="AUDIT_USER"/>
+		<id property="authType" column="AUTH_TYPE"/>
+		<id property="createTime" column="CREATE_TIME"/>
+		<id property="onlineTime" column="ONLINE_TIME"/>
+		<id property="groupId" column="GROUP_ID"/>
+		<id property="provider" column="PROVIDER"/>
+		<id property="updateTime" column="UPDATE_TIME"/>
+		<id property="remoteId" column="REMOTE_ID"/>
+		<id property="protocol" column="PROTOCOL"/>
+		<id property="reqPath" column="REQ_PATH"/>
+		<id property="httpMethod" column="HTTP_METHOD"/>
+		<id property="scProtocol" column="SC_PROTOCOL"/>
+		<id property="scHttpMethod" column="SC_HTTP_METHOD"/>
+		<id property="scAddr" column="SC_ADDR"/>
+		<id property="contentType" column="CONTENT_TYPE"/>
+		<id property="returnSample" column="RETURN_SAMPLE"/>
+		<id property="apiGroup" column="API_GROUP"/>
+		<id property="price" column="price"/>
+		<id property="priceType" column="price_type"/>
+		<id property="encryptionType" column="encryption_type"/>
+		<id property="maxQps" column="max_qps"/>
+		<id property="limitCount" column="limit_count"/>
+		<id property="topLimitCount" column="top_limit_count"/>
+		<id property="topLimitUnit" column="top_limit_unit"/>
+		<id property="apiType" column="api_type"/>
+		<id property="scFrame" column="SC_FRAME"/>
+		<id property="nameSpace" column="NAME_SPACE"/>
+		<id property="sc_ws_function" column="SC_WS_FUNCTION"/>
+		<id property="callCount" column="CALL_COUNT"/>
+		<id property="wsReturnType" column="WS_RETURN_TYPE"/>
+		<id property="wsReturnQname" column="WS_RETURN_QNAME"/>
+		<id property="publicNet" column="is_public_net"/>
+		<id property="formType" column="form_type"/>
+	</resultMap>
+
+	<select id="getServiceDef" parameterType="map" resultMap="serviceDef">
+		select * from api_service_def where id= #{id}
+		<if test="auditStatus!=null">
+			and audit_status = #{auditStatus}
+		</if>
+	</select>
+	<select id="listServiceDefs" parameterType="map" resultMap="serviceDef">
+		select * from api_service_def where 1=1
+		<if test="name!=null and name!=''">
+			<bind name="names" value="'%'+name+'%'" />
+			and name like #{names}
+		</if>
+		<if test="provider!=null">
+			and provider = #{provider}
+		</if>
+		<if test="auditUser!=null">
+			and audit_user = #{auditUser}
+		</if>
+		<if test='auditStatus=="0" and auditStatus!=null and auditStatus!=""'>
+		and (audit_status ='1' or audit_status ='2' or audit_status ='3'  or audit_status ='4')
+	    </if>
+		<if test='auditStatus!="0" and auditStatus!=null and auditStatus!="" '>
+		  and audit_status = #{auditStatus}
+		</if>
+		<if test="groupArr!=null">
+		 and group_id in
+			<foreach collection="groupArr" item="groupid" index="index" open="(" close=")" separator=",">
+				#{groupid}
+			</foreach>
+		</if>
+
+		<if test="groupId!=null and groupId!=''">
+			and group_id = #{groupId}
+		</if>
+		<if test="createBegintime!=null">
+			<![CDATA[
+			and create_time >= #{createbegintime}
+			 ]]>
+		</if>
+		<if test="createEndtime!=null">
+			<![CDATA[
+		    and create_time<= #{createendtime}
+		    ]]>
+		</if>
+		order by CALL_COUNT desc
+	</select>
+
+	<select id="getById" parameterType="string" resultMap="serviceDef">
+	select * from api_service_def where id= #{id}
+	</select>
+
+	<update id="audit" parameterType="com.inspur.apigateway.data.ServiceDef">
+		update api_service_def
+		set
+		audit_status = #{auditStatus},
+		audit_user=#{auditUser},
+		online_time=#{onlineTime},
+		update_time=#{updateTime},
+		group_id=#{groupId},
+		call_count=#{callCount}
+		where id= #{id}
+	</update>
+
+	<update id="updateServiceDefCount" parameterType="map">
+		update api_service_def
+		set
+		<trim prefix="" suffix="" suffixOverrides=",">
+			<if test="updateTime!=null and updateTime!='' ">update_time=#{updateTime},</if>
+			<if test="limitCount!=null and limitCount!='' ">limit_count=#{limitCount},</if>
+			<if test="topLimitCount!=null and topLimitCount!='' ">top_limit_count=#{topLimitCount},</if>
+			<if test="topLimitUnit!=null and topLimitUnit!='' ">top_limit_unit=#{topLimitUnit}</if>
+		</trim>
+		where id= #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM
+		api_service_def
+		WHERE
+		id = #{id}
+	</delete>
+	<select id="getByApiGroupAndPath" parameterType="map" resultMap="serviceDef">
+		select * from api_service_def where API_GROUP= #{apiGroup} and REQ_PATH=#{reqPath}
+	</select>
+
+	<select id="getByGroupContextAndPath" parameterType="map" resultMap="serviceDef">
+		SELECT asd.* FROM api_service_def asd INNER JOIN api_developer_group adg ON asd.API_GROUP=adg.id WHERE adg.context= #{context} and asd.REQ_PATH=#{reqPath}
+	</select>
+
+	<select id="listAPIByProvider" parameterType="map" resultMap="serviceDef">
+		select * from api_service_def where 1=1
+		<if test='provider!=null and provider!=""'>
+			and provider = #{provider}
+		</if>
+		<if test='auditStatus!=null'>
+			and audit_status IN
+			<foreach collection="auditStatus" item="status" index="index" open="(" close=")" separator=",">
+				#{status}
+			</foreach>
+		</if>
+		order by create_time desc
+	</select>
+	<select id="queryByRemoteId" resultMap="serviceDef" parameterType="string">
+		select * from  api_service_def  where  REMOTE_ID=#{remoteId}
+	</select>
+
+</mapper>
